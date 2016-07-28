@@ -34,13 +34,16 @@
   "dependencies": {
     "example-cities": "0.0.0",
     "global": "^4.3.0",
+    "jquery": "^3.1.0",
     "object-assign": "^4.0.1",
     "react-map-gl": "^0.6.9",
     "scale-color-perceptual": "^1.1.2",
+    "socket.io": "^1.4.8",
     "viewport-mercator-project": "^2.0.1",
     "webgl-heatmap": "^0.2.0"
   },
   "devDependencies": {
+    "babel-polyfill": "^6.9.1",
     "bistre": "^1.0.1",
     "budo": "^6.0.1",
     "immutable": "^3.7.5",
