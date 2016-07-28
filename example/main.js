@@ -10,10 +10,10 @@ var r = require('r-dom');
 var MapGL = require('react-map-gl');
 var HeatmapOverlay = require('../');
 var assign = require('object-assign');
-var locations = require('example-cities');
 var rasterTileStyle = require('raster-tile-style');
 var socketio = require('socket.io-client');
 var $ = require("jquery");
+var locations = require('example-cities');
 
 
 function color() {
@@ -55,7 +55,7 @@ var App = React.createClass({
   },
 
   componentDidMount: function componentDidMount() {
-    this.loadInitialData();
+    //this.loadInitialData();
     window.addEventListener('resize', function onResize() {
       this.setState({
         viewport: assign({}, this.state.viewport, {
@@ -98,7 +98,7 @@ var App = React.createClass({
       window.setInterval(function(app) {
           return function() {
               var index = Math.floor(Math.random() * locations.length);
-              cache.push({point: locations[index], timeout: Math.floor(Math.random() * 300)});
+              //cache.push({point: locations[index], timeout: Math.floor(Math.random() * 300)});
               var points = [];
               var c = [];
               for (var i = 0; i < cache.length; i++) {
@@ -116,8 +116,19 @@ var App = React.createClass({
 
 });
 
-var io = socketio();
-console.log(io);
+var io = socketio('http://localhost:5000');
+io.on('connect', function() {
+    console.log('connected...');
+    io.on('searches', function(msg) {
+        console.log(msg.data);
+        var points = msg.data;
+        console.log(points.length);
+        for (var i = 0; i < points.length; i++) {
+            var point = points[i];
+            cache.push({point: {latitude: parseFloat(point[0]), longitude: parseFloat(point[1])}, timeout: Math.random() * 300});
+        }
+    });
+});
 
 var reactContainer = document.createElement('div');
 document.body.style.margin = '0';
